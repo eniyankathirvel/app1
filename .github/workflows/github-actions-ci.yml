@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Trufflehog scan
+      uses: trufflesecurity/TruffleHog-Enterprise-Github-Action
+      
     - name: Checkout code
       uses: actions/checkout@v3
 
