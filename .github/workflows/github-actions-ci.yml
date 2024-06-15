@@ -6,13 +6,21 @@ on:
     branches: [ "main" ]
 
 jobs:
+  scanning:
+    name: TruffleHog Enterprise scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # fetch all history so multiple commits can be scanned
+      - name: TruffleHog Enterprise scan
+        uses: trufflesecurity/TruffleHog-Enterprise-Github-Action@main
+        with:
+            args: --fail-verified ${{ github.event.repository.default_branch }} HEAD
+
   deploy:
     runs-on: ubuntu-latest
-
-    - name: TruffleHog Enterprise scan
-      uses: trufflesecurity/TruffleHog-Enterprise-Github-Action@main
-      with:
-        args: --fail-verified ${{ github.event.repository.default_branch }} HEAD
 
     - name: Checkout code
       uses: actions/checkout@v3
