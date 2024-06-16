@@ -19,7 +19,7 @@ jobs:
       run: |
         pip install truffleHog
         pwd
-        trufflehog git_url https://github.com/eniyankathirvel/app1.git
+        trufflehog git https://github.com/eniyankathirvel/app1.git --only-verified
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
