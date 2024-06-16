@@ -16,7 +16,7 @@ jobs:
     - name: Install TruffleHog
       run: |
         pip install truffleHog
-        trufflehog filesystem --regex --entropy=True .
+        trufflehog filesystem --regex --entropy=True --json .
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
