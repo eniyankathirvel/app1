@@ -18,16 +18,7 @@ jobs:
     - name: Install TruffleHog
       run: |
         pip install truffleHog
-
-    - name: TruffleHog OSS
-      id: trufflehog
-      uses: trufflesecurity/trufflehog@add-actions-cli-switch
-      continue-on-error: true
-      with: 
-        path: ./ 
-        base: "${{ github.event.repository.default_branch }}" 
-        head: HEAD 
-        extra_args: --debug --only-verified .
+        pwd
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
