@@ -19,6 +19,10 @@ jobs:
       run: 
         docker run --rm -v "$GITHUB_WORKSPACE:/tmp" trufflesecurity/trufflehog:latest --fail --no-update git file:///tmp/
 
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
