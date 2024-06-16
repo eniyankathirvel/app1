@@ -16,10 +16,9 @@ jobs:
         fetch-depth: 0
 
     - name: Install TruffleHog
-      run: |
-        pip install truffleHog
-        pwd
-        trufflehog git https://github.com/eniyankathirvel/app1.git --only-verified
+      run: 
+        docker run --rm -v "$GITHUB_WORKSPACE:/tmp" trufflesecurity/trufflehog:latest --fail --no-update git file:///tmp/
+
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
