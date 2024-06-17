@@ -25,6 +25,9 @@ jobs:
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+    - name: Run Snyk Code for SAST
+      run: snyk code test --severity-threshold=high --json
+
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
       with:
