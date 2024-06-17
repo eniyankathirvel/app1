@@ -27,7 +27,6 @@ jobs:
 
     - name: SAST-SEMGREP
       run:
-        python -m pip install --upgrade pip
         python3 -m pip install semgrep
         python -m semgrep --config "p/ci" --config auto . --output $(date +"%d-%m-%Y").json --json > scanSummry.txt 2>&1
 
