@@ -28,7 +28,8 @@ jobs:
     - name: SAST-SEMGREP
       run:
         python3 -m pip install semgrep
-        python -m semgrep --config "p/ci" --config auto . --output $(date +"%d-%m-%Y").json --json > scanSummry.txt 2>&1
+        $secrets.SEMGREP_APP_TOKEN semgrep login
+        semgrep ci
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
