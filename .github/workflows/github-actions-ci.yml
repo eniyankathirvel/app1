@@ -25,6 +25,12 @@ jobs:
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+    - name: SAST-SEMGREP
+      run:
+        python3 -m pip install semgrep
+        semgrep --version
+        semgrep --config=auto vulpy --output result.json --json
+
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
       with:
@@ -56,7 +62,7 @@ jobs:
       with:
         image-ref: '304520711562.dkr.ecr.us-east-1.amazonaws.com/app1:1.1'
         format: 'sarif'
-        output: 'trivy-results.sarif'
+        output: 'trivy-results-1.sarif'
     
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v2
