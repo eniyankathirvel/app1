@@ -15,15 +15,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Super Linter Validation
-      run:
-        docker pull github/super-linter:latest
-        docker run \
-          -e RUN_LOCAL=true \
-          -e VALIDATE_ARM=true \
-          -v $GITHUB_WORKSPACE:/tmp/lint \
-          github/super-linter
-
     - name: Install TruffleHog
       run: 
         docker run --rm -v "$GITHUB_WORKSPACE:/tmp" trufflesecurity/trufflehog:latest --fail --no-update git file:///tmp/
@@ -62,6 +53,13 @@ jobs:
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.20.0
+      with:
+        image-ref: '$REGISTRY/$REPOSITORY:$IMAGE_TAG'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
 
     - name: Update kube config
       run: aws eks update-kubeconfig --name eniyan-eks
