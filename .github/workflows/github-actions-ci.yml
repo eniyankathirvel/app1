@@ -28,7 +28,7 @@ jobs:
     - name: SAST-SEMGREP
       run:
         python3 -m pip install semgrep
-        $secrets.SEMGREP_APP_TOKEN semgrep login
+        semgrep login
         semgrep ci
 
     - name: Install kubectl
