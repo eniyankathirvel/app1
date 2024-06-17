@@ -15,6 +15,15 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Super Linter Validation
+      run:
+        docker pull github/super-linter:latest
+        docker run \
+          -e RUN_LOCAL=true \
+          -e VALIDATE_ARM=true \
+          -v $GITHUB_WORKSPACE:/tmp/lint \
+          github/super-linter
+
     - name: Install TruffleHog
       run: 
         docker run --rm -v "$GITHUB_WORKSPACE:/tmp" trufflesecurity/trufflehog:latest --fail --no-update git file:///tmp/
