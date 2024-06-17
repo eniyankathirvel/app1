@@ -29,7 +29,10 @@ jobs:
       run:
         python3 -m pip install semgrep
         semgrep --version
-        semgrep --config=auto vulpy --output result.json --json
+        semgrep \
+        --sarif --output report.sarif \
+        --metrics=off \
+        --config="p/default"
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
