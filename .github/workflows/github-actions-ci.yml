@@ -48,14 +48,14 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push docker image to Amazon ECR
+    - name: Build, tag docker image
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: app1
         IMAGE_TAG: 1.1
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@0.20.0
@@ -63,6 +63,15 @@ jobs:
         image-ref: '304520711562.dkr.ecr.us-east-1.amazonaws.com/app1:1.1'
         format: 'sarif'
         output: 'trivy-results-1.sarif'
+
+    - name: Push docker image to Amazon ECR
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: app1
+        IMAGE_TAG: 1.1
+      run: |
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
 
     - name: Update kube config
       run: aws eks update-kubeconfig --name eniyan-eks
