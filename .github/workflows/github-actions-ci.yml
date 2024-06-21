@@ -47,7 +47,7 @@ jobs:
 
   build-and-scan:
     runs-on: ubuntu-latest
-    needs: security-checks
+    needs: clone-code
 
     steps:
     - name: Checkout code
