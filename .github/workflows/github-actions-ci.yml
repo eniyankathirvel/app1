@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy:
+  clone-code:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,7 +14,8 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-
+  
+  scan: 
     - name: Install TruffleHog
       run: 
         docker run --rm -v "$GITHUB_WORKSPACE:/tmp" trufflesecurity/trufflehog:latest --fail --no-update git file:///tmp/
@@ -24,7 +25,8 @@ jobs:
       continue-on-error: true
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
+  
+  sast: 
     - name: SAST-SEMGREP
       run:
         python3 -m pip install semgrep
