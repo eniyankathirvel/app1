@@ -38,6 +38,8 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     - name: SAST-SEMGREP
+      env:           
+        SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
       run: |
         python3 -m pip install semgrep
         semgrep login
