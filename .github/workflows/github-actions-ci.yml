@@ -44,7 +44,6 @@ jobs:
         python3 -m pip install semgrep
         semgrep login
         semgrep ci
-    needs: clone-code
 
   build-and-scan:
     runs-on: ubuntu-latest
