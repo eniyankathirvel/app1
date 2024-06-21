@@ -45,7 +45,7 @@ jobs:
         semgrep login
         semgrep ci
 
-  build-docker-image:
+  build-and-scan:
     runs-on: ubuntu-latest
     needs: clone-code
 
@@ -87,24 +87,13 @@ jobs:
         format: 'sarif'
         output: 'trivy-results-1.sarif'
 
-  scan-Image:
-    - name: Run Trivy vulnerability scanner
-      needs: build-docker-image
-      uses: aquasecurity/trivy-action@0.20.0
-      with:
-        image-ref: ${{ steps.login-ecr.outputs.registry }}/app1:1.1
-        format: 'sarif'
-        output: 'trivy-results-1.sarif'
-
-  push-image: 
-      - name: Push docker image to Amazon ECR
-        needs: Scan-Image
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: app1
-          IMAGE_TAG: 1.1
-        run: |
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+    - name: Push docker image to Amazon ECR
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: app1
+        IMAGE_TAG: 1.1
+      run: |
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   deploy:
     runs-on: ubuntu-latest
